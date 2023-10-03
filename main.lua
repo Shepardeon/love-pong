@@ -3,25 +3,43 @@ if arg[#arg] == "vsc_debug" then require("lldebugger").start() end
 -- Global modules
 Screen = require("src/screen")
 
-local Ball = require("src/ball")
-local Paddle = require("src/paddle")
+local Ball = require("src/entities/ball")
+local Paddle = require("src/entities/paddle")
 
 -- Global tables
 local gameObjects = {}
+local world = {}
 
 function love.load()
-    local ballRadius = 10
-    table.insert(gameObjects, Ball.new(
+    local ballRadius = 5
+    local ball = Ball.new(
         Screen.nativeWidth/2 - ballRadius/2,
         Screen.nativeHeight/2 - ballRadius/2,
-        ballRadius
-    ))
+        ballRadius,
+        world
+    )
+    table.insert(gameObjects, ball)
+    world.ball = ball
 
-    table.insert(gameObjects, Paddle.new(
+    local player = Paddle.new(
         10,
         Screen.nativeHeight/2,
-        60
-    ))
+        60,
+        require("src/controllers/playerController"),
+        world
+    )
+    table.insert(gameObjects, player)
+    world.player = player
+
+    local ia = Paddle.new(
+        Screen.nativeWidth - 20,
+        Screen.nativeHeight/2,
+        60,
+        require("src/controllers/iaController"),
+        world
+    )
+    table.insert(gameObjects, ia)
+    world.ia = ia
 end
 
 local FPS = 0
