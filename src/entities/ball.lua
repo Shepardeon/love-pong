@@ -87,8 +87,6 @@ function Ball.new(x, y, radius, world)
             local l = len(c, s)
 
             self.dy = -s / l
-
-            print(self.dy, ang)
         end
 
         if iaOverlap > 0 then
