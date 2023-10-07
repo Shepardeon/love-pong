@@ -59,7 +59,15 @@ function Ball.new(x, y, radius, world)
         self.x = self.x + self.dx * self.speed * dt
         self.y = self.y + self.dy * self.speed * dt
 
+        self.speed = self.speed + 5 * dt
+
         if self.x + 5 > Screen.nativeWidth or self.x - 5 < 0 then 
+            if self.x + 5 > Screen.nativeWidth then
+                world.scores.p1 = world.scores.p1 + 1
+            else
+                world.scores.p2 = world.scores.p2 + 1
+            end
+
             self.x = Screen.nativeWidth/2
             self.y = Screen.nativeHeight/2
             self.speed = 150
@@ -79,7 +87,6 @@ function Ball.new(x, y, radius, world)
         if playerOverlap > 0 then
             solveCollision(self, world.player, playerOverlap)
             self.dx = -self.dx
-            self.speed = self.speed + 25
 
             local ang = getAngleBetween(self, world.player)
             local c = cos(ang)

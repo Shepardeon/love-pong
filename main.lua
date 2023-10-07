@@ -11,6 +11,8 @@ local gameObjects = {}
 local world = {}
 
 function love.load()
+    love.graphics.setDefaultFilter('nearest')
+
     local ballRadius = 5
     local ball = Ball.new(
         Screen.nativeWidth/2 - ballRadius/2,
@@ -35,11 +37,16 @@ function love.load()
         Screen.nativeWidth - 20,
         Screen.nativeHeight/2,
         60,
-        require("src/controllers/iaController"),
+        require("src/controllers/playerController"),
         world
     )
     table.insert(gameObjects, ia)
     world.ia = ia
+
+    world.scores = {
+        p1 = 0,
+        p2 = 0
+    }
 end
 
 local FPS = 0
@@ -71,4 +78,6 @@ function love.draw()
     love.graphics.pop()
 
     love.graphics.print("FPS: "..FPS)
+
+    love.graphics.print(world.scores.p1 .. "/" .. world.scores.p2, Screen.screenWidth/2 - 50, 10, 0, 5)
 end
